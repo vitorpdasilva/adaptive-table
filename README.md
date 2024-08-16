@@ -4,7 +4,7 @@
 
 ```
 import React from 'react';
-import NiceTable from '@NiceTable';
+import { NiceTable } from './components/NiceTable';
 import type { Column } from './types';
 
 interface User {
@@ -16,23 +16,27 @@ interface User {
 }
 
 const columns: Column<User>[] = [
-  { key: 'id', title: 'ID', minWidth: 50 },
+  { key: 'id', title: 'ID', minWidth: 50, isResizable: false },
   { key: 'name', title: 'Name', minWidth: 100 },
   {
     key: 'email',
     title: 'Email',
     minWidth: 200,
-    render: (value) => <a href={`mailto:${value}`}>{value}</a>
+    render: (value, row) => (
+      <a href={`mailto:${value}`} title={`Send email to ${row.name}`}>
+        {value}
+      </a>
+    )
   },
   { key: 'age', title: 'Age', minWidth: 80 },
   {
     key: 'status',
     title: 'Status',
     minWidth: 100,
-    sortable: false,
-    render: (value) => (
+    render: (value, row) => (
       <span style={{ color: value === 'active' ? 'green' : 'red' }}>
         {value.charAt(0).toUpperCase() + value.slice(1)}
+        {row.age < 30 && value === 'active' && ' (Young Active)'}
       </span>
     )
   },
@@ -51,6 +55,15 @@ const App: React.FC = () => {
       columns={columns}
       hasCheckbox={true}
       itemsPerPage={10}
+      expandedRow={(rowData) => (
+        <div>
+          <h3>User Details</h3>
+          <p>Name: {rowData.name}</p>
+          <p>Email: {rowData.email}</p>
+          <p>Age: {rowData.age}</p>
+          <p>Status: {rowData.status}</p>
+        </div>
+      )}
       onSorting={(sortingData) => console.log('Sorting:', sortingData)}
       onPagination={(paginationData) => console.log('Pagination:', paginationData)}
       onRowSelect={(selectedRows) => console.log('Selected rows:', selectedRows)}

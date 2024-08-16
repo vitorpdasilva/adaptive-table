@@ -1,0 +1,51 @@
+{
+  "name": "nice-table",
+  "version": "1.0.0",
+  "description": "A reusable and customizable table component for React, written in TypeScript by @vitorboccio",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "rollup -c",
+    "test": "jest",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint 'src/**/*.{js,ts,tsx}'",
+    "lint:fix": "eslint 'src/**/*.{js,ts,tsx}' --fix"
+  },
+  "keywords": [
+    "react",
+    "table",
+    "component",
+    "typescript"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.9.0",
+    "@rollup/plugin-commonjs": "^21.0.0",
+    "@rollup/plugin-node-resolve": "^13.0.0",
+    "@types/eslint__js": "^8.42.3",
+    "@types/jest": "^27.0.0",
+    "@types/react": "^18.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/eslint-plugin-tslint": "^7.0.2",
+    "@typescript-eslint/parser": "^5.62.0",
+    "eslint": "^8.57.0",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-react": "^7.35.0",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "jest": "^27.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "rollup": "^2.60.0",
+    "rollup-plugin-typescript2": "^0.31.0",
+    "ts-jest": "^27.0.0",
+    "typescript": "^4.9.5",
+    "typescript-eslint": "^8.1.0"
+  }
+}

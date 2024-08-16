@@ -16,12 +16,12 @@ export const NiceTable = <T extends Record<string, React.ReactNode>>({
   columns,
   hasCheckbox = false,
   itemsPerPage = 10,
-  expandableComponent,
+  expandedRow,
   onSorting,
   onPagination,
   onRowSelect,
 }: NiceTableProps<T>) => {
-  const [expandedRow, setExpandedRow] = useState<number | null>(null);
+  const [expandedRows, setExpandedRows] = useState<Set<number>>(new Set());
 
   const { columnWidths, handleColumnResize } = useColumnResize<T>(columns);
   const { pagination, paginatedData, handlePageChange } = usePagination<T>(
@@ -34,7 +34,15 @@ export const NiceTable = <T extends Record<string, React.ReactNode>>({
   const { sorting, handleSort } = useSorting<T>(onSorting);
 
   const handleRowClick = (index: number) => {
-    setExpandedRow(expandedRow === index ? null : index);
+    setExpandedRows((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(index)) {
+        newSet.delete(index);
+      } else {
+        newSet.add(index);
+      }
+      return newSet;
+    });
   };
 
   return (
@@ -54,8 +62,8 @@ export const NiceTable = <T extends Record<string, React.ReactNode>>({
           hasCheckbox={hasCheckbox}
           columnWidths={columnWidths}
           selectedRows={selectedRows}
-          expandedRow={expandedRow}
-          expandableComponent={expandableComponent}
+          expandedRows={expandedRows}
+          expandedRowRender={expandedRow}
           onRowClick={handleRowClick}
           onCheckboxChange={handleCheckboxChange}
         />

@@ -7,8 +7,8 @@ interface NiceTableBodyProps<T extends Record<string, React.ReactNode>> {
   hasCheckbox: boolean;
   columnWidths: Record<string, number>;
   selectedRows: T[];
-  expandedRow: number | null;
-  expandableComponent?: React.ComponentType<{ row: T }>;
+  expandedRows: Set<number>;
+  expandedRowRender?: (rowData: T) => React.ReactNode;
   onRowClick: (index: number) => void;
   onCheckboxChange: (row: T) => void;
 }
@@ -19,8 +19,8 @@ export const NiceTableBody = <T extends Record<string, React.ReactNode>>({
   hasCheckbox,
   columnWidths,
   selectedRows,
-  expandedRow,
-  expandableComponent,
+  expandedRows,
+  expandedRowRender,
   onRowClick,
   onCheckboxChange,
 }: NiceTableBodyProps<T>) => {
@@ -51,9 +51,9 @@ export const NiceTableBody = <T extends Record<string, React.ReactNode>>({
               </div>
             ))}
           </div>
-          {expandedRow === rowIndex && expandableComponent && (
+          {expandedRows.has(rowIndex) && expandedRowRender && (
             <div className="nice-table-expanded-row">
-              {React.createElement(expandableComponent, { row })}
+              {expandedRowRender(row)}
             </div>
           )}
         </React.Fragment>

@@ -3,7 +3,7 @@
 var typescript = require("rollup-plugin-typescript2");
 var commonjs = require("@rollup/plugin-commonjs");
 var { nodeResolve } = require("@rollup/plugin-node-resolve");
-var css = require("rollup-plugin-css-only");
+var postcss = require("rollup-plugin-postcss");
 var pkg = require("./package.json");
 
 module.exports = {
@@ -25,7 +25,10 @@ module.exports = {
   plugins: [
     nodeResolve(),
     commonjs(),
-    css({ output: "dist/styles.css" }),
+    postcss({
+      inject: true, // This will inject the CSS into the bundle
+      minimize: true, // This will minify the CSS
+    }),
     typescript({
       tsconfig: "./tsconfig.json",
       clean: true,

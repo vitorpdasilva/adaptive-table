@@ -6,11 +6,12 @@
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "rollup -c",
+    "build": "rollup -c rollup.config.cjs",
     "test": "jest",
     "typecheck": "tsc --noEmit",
     "lint": "eslint 'src/**/*.{js,ts,tsx}'",
-    "lint:fix": "eslint 'src/**/*.{js,ts,tsx}' --fix"
+    "lint:fix": "eslint 'src/**/*.{js,ts,tsx}' --fix",
+    "style": "dist/styles.css"
   },
   "keywords": [
     "react",
@@ -18,7 +19,7 @@
     "component",
     "typescript"
   ],
-  "author": "Your Name",
+  "author": "Vitor Silva",
   "license": "MIT",
   "peerDependencies": {
     "react": "^17.0.0 || ^18.0.0",
@@ -43,6 +44,8 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "rollup": "^2.60.0",
+    "rollup-plugin-css-only": "^4.5.2",
+    "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-typescript2": "^0.31.0",
     "ts-jest": "^27.0.0",
     "typescript": "^4.9.5",

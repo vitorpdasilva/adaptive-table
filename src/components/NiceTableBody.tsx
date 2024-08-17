@@ -1,7 +1,7 @@
 import React from "react";
 import type { Column } from "../types";
 
-interface NiceTableBodyProps<T extends Record<string, React.ReactNode>> {
+interface NiceTableBodyProps<T> {
   data: T[];
   columns: Column<T>[];
   hasCheckbox: boolean;
@@ -13,7 +13,7 @@ interface NiceTableBodyProps<T extends Record<string, React.ReactNode>> {
   onCheckboxChange: (row: T) => void;
 }
 
-export const NiceTableBody = <T extends Record<string, React.ReactNode>>({
+export const NiceTableBody = <T,>({
   data,
   columns,
   hasCheckbox,
@@ -46,8 +46,8 @@ export const NiceTableBody = <T extends Record<string, React.ReactNode>>({
                 style={{ width: `${columnWidths[column.key as string]}px` }}
               >
                 {column.render
-                  ? column.render(row[column.key as keyof T], row)
-                  : row[column.key as keyof T]}
+                  ? column.render(row[column.key], row)
+                  : (row[column.key] as React.ReactNode)}
               </div>
             ))}
           </div>

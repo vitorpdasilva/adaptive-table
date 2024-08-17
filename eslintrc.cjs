@@ -7,12 +7,27 @@ module.exports = {
   },
   parser: "@typescript-eslint/parser",
   parserOptions: {
-    ecmaVersion: 2021,
+    ecmaVersion: "latest",
     sourceType: "module",
     ecmaFeatures: {
       jsx: true,
     },
   },
+  overrides: [
+    {
+      files: ["*.cjs", "*.js"],
+      env: {
+        node: true,
+      },
+      parserOptions: {
+        sourceType: "script",
+      },
+      rules: {
+        "@typescript-eslint/no-var-requires": "off",
+        "import/no-commonjs": "off",
+      },
+    },
+  ],
   extends: [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",

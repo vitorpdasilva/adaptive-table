@@ -9,9 +9,9 @@ import { NiceTableBody } from "./NiceTableBody";
 import { NiceTableHeader } from "./NiceTableHeader";
 import { NiceTablePagination } from "./NiceTablePagination";
 
-import "./NiceTable.css";
+import "./styles.css";
 
-export const NiceTable = <T extends Record<string, React.ReactNode>>({
+export const NiceTable = <T,>({
   data,
   columns,
   hasCheckbox = false,

@@ -15,10 +15,10 @@ export const NiceTableHeader = <T,>() => {
   } = useTableContext<T>();
 
   return (
-    <div className="nice-table-header">
+    <div className="adaptive-table-header">
       {hasCheckbox && (
         <div
-          className="nice-table-cell nice-table-checkbox"
+          className="adaptive-table-cell adaptive-table-checkbox"
           style={{
             width: `${columnWidths[0]}px`,
             flexBasis: `${columnWidths[0]}px`,
@@ -36,7 +36,7 @@ export const NiceTableHeader = <T,>() => {
         return (
           <div
             key={column.key as string}
-            className="nice-table-cell"
+            className="adaptive-table-cell"
             style={{
               width: `${columnWidths[columnIndex]}px`,
               flexBasis: `${columnWidths[columnIndex]}px`,

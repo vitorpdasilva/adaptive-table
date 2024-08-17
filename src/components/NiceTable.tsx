@@ -89,8 +89,8 @@ export const NiceTable = <T,>({
 
   return (
     <TableProvider value={contextValue}>
-      <div className="nice-table-container" ref={tableRef}>
-        <div className="nice-table">
+      <div className="adaptive-table-container" ref={tableRef}>
+        <div className="adaptive-table">
           <NiceTableHeader<T> />
           <NiceTableBody<T> />
         </div>

@@ -7,14 +7,14 @@ NiceTable is a flexible and feature-rich React table component that provides sor
 ## Installation
 
 ```bash
-npm install nice-table
+npm install adaptive-table
 ```
 
 ## Basic Usage
 
 ```jsx
 import React from 'react';
-import { NiceTable, Column } from 'nice-table';
+import { NiceTable, Column } from 'adaptive-table';
 
 const columns: Column<User>[] = [
   { key: 'id', title: 'ID', minWidth: 50 },
@@ -113,15 +113,15 @@ When the `expandedRow` prop is provided, rows become expandable. Clicking on a r
 
 The component comes with default styling, but you can customize its appearance by overriding the CSS classes. The main classes used are:
 
-- `.nice-table-container`: The outer container of the table.
-- `.nice-table`: The table itself.
-- `.nice-table-header`: The table header row.
-- `.nice-table-body`: The container for table body rows.
-- `.nice-table-row`: Individual table rows.
-- `.nice-table-cell`: Individual table cells.
-- `.nice-table-checkbox`: The checkbox cell.
-- `.nice-table-expanded-row`: The expanded row content container.
-- `.nice-table-pagination`: The pagination controls container.
+- `.adaptive-table-container`: The outer container of the table.
+- `.adaptive-table`: The table itself.
+- `.adaptive-table-header`: The table header row.
+- `.adaptive-table-body`: The container for table body rows.
+- `.adaptive-table-row`: Individual table rows.
+- `.adaptive-table-cell`: Individual table cells.
+- `.adaptive-table-checkbox`: The checkbox cell.
+- `.adaptive-table-expanded-row`: The expanded row content container.
+- `.adaptive-table-pagination`: The pagination controls container.
 
 ## TypeScript Support
 

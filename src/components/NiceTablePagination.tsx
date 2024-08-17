@@ -6,7 +6,7 @@ export const NiceTablePagination = <T,>() => {
   const { currentPage, itemsPerPage } = pagination;
 
   return (
-    <div className="nice-table-pagination">
+    <div className="adaptive-table-pagination">
       <button
         onClick={() => handlePageChange(currentPage - 1)}
         disabled={currentPage === 1}

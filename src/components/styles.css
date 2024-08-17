@@ -1,28 +1,28 @@
-.nice-table-container {
+.adaptive-table-container {
   width: 100%;
   overflow-x: auto;
   font-family: Arial, sans-serif;
 }
 
-.nice-table {
+.adaptive-table {
   display: table;
   width: 100%;
   table-layout: fixed;
   border-collapse: collapse;
 }
 
-.nice-table-header,
-.nice-table-row {
+.adaptive-table-header,
+.adaptive-table-row {
   display: flex;
   width: 100%;
 }
 
-.nice-table-header {
+.adaptive-table-header {
   background-color: #f2f2f2;
   font-weight: bold;
 }
 
-.nice-table-cell {
+.adaptive-table-cell {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -34,13 +34,13 @@
   position: relative;
 }
 
-.nice-table-checkbox {
+.adaptive-table-checkbox {
   flex: 0 0 40px !important;
   max-width: 40px !important;
   justify-content: center;
 }
 
-.nice-table-checkbox input[type="checkbox"] {
+.adaptive-table-checkbox input[type="checkbox"] {
   margin: 0;
 }
 
@@ -59,24 +59,24 @@
   background-color: #0066cc;
 }
 
-.nice-table-body .nice-table-row:hover {
+.adaptive-table-body .adaptive-table-row:hover {
   background-color: #f5f5f5;
 }
 
-.nice-table-expanded-row {
+.adaptive-table-expanded-row {
   padding: 12px;
   background-color: #f9f9f9;
   border-bottom: 1px solid #ddd;
 }
 
-.nice-table-pagination {
+.adaptive-table-pagination {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 20px;
 }
 
-.nice-table-pagination button {
+.adaptive-table-pagination button {
   padding: 8px 12px;
   margin: 0 5px;
   background-color: #f2f2f2;
@@ -84,12 +84,12 @@
   cursor: pointer;
 }
 
-.nice-table-pagination button:disabled {
+.adaptive-table-pagination button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-.nice-table-pagination span {
+.adaptive-table-pagination span {
   margin: 0 10px;
 }
 
@@ -98,7 +98,7 @@
   cursor: pointer;
 }
 
-.nice-table-expanded-row {
+.adaptive-table-expanded-row {
   padding: 12px;
   background-color: #f9f9f9;
   border-bottom: 1px solid #ddd;

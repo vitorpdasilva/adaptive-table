@@ -15,16 +15,16 @@ export const NiceTableBody = <T,>() => {
   } = useTableContext<T>();
 
   return (
-    <div className="nice-table-body">
+    <div className="adaptive-table-body">
       {data.map((row, rowIndex) => (
         <Fragment key={rowIndex}>
           <div
-            className="nice-table-row"
+            className="adaptive-table-row"
             onClick={() => handleRowExpand(rowIndex)}
           >
             {hasCheckbox && (
               <div
-                className="nice-table-cell nice-table-checkbox"
+                className="adaptive-table-cell adaptive-table-checkbox"
                 style={{
                   width: `${columnWidths[0]}px`,
                   flexBasis: `${columnWidths[0]}px`,
@@ -42,7 +42,7 @@ export const NiceTableBody = <T,>() => {
               return (
                 <div
                   key={column.key as string}
-                  className="nice-table-cell"
+                  className="adaptive-table-cell"
                   style={{
                     width: `${columnWidths[widthIndex]}px`,
                     flexBasis: `${columnWidths[widthIndex]}px`,
@@ -58,7 +58,7 @@ export const NiceTableBody = <T,>() => {
             })}
           </div>
           {expandedRows.has(rowIndex) && expandedRowRender && (
-            <div className="nice-table-expanded-row">
+            <div className="adaptive-table-expanded-row">
               {expandedRowRender(row)}
             </div>
           )}

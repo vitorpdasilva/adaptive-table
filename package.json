@@ -1,5 +1,5 @@
 {
-  "name": "nice-table",
+  "name": "adaptive-table",
   "version": "1.0.0",
   "description": "A reusable and customizable table component for React, written in TypeScript by @vitorboccio",
   "main": "dist/index.js",
@@ -11,7 +11,8 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint 'src/**/*.{js,ts,tsx}'",
     "lint:fix": "eslint 'src/**/*.{js,ts,tsx}' --fix",
-    "style": "dist/styles.css"
+    "style": "dist/styles.css",
+    "prepublishOnly": "npm run build"
   },
   "files": [
     "dist"
@@ -27,6 +28,10 @@
   "peerDependencies": {
     "react": "^17.0.0 || ^18.0.0",
     "react-dom": "^17.0.0 || ^18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vitorpdasilva/adaptive-table"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",

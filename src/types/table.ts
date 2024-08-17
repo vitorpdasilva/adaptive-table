@@ -12,4 +12,5 @@ export interface NiceTableProps<T> {
   onSorting?: (sortingData: SortingState<T>) => void;
   onPagination?: (paginationData: PaginationState) => void;
   onRowSelect?: (selectedRows: T[]) => void;
+  onResize?: (columnWidths: number[]) => void;
 }

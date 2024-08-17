@@ -1,78 +1,92 @@
-import React, { useState } from "react";
-
-import type { NiceTableProps } from "../types";
+import React, { useRef, useEffect, useState, useMemo } from "react";
+import { TableProvider } from "../context/TableContext";
 import { useColumnResize } from "../hooks/useColumnResize";
 import { usePagination } from "../hooks/usePagination";
-import { useRowSelection } from "../hooks/useRowSelection";
 import { useSorting } from "../hooks/useSorting";
-import { NiceTableBody } from "./NiceTableBody";
+import { useRowSelection } from "../hooks/useRowSelection";
 import { NiceTableHeader } from "./NiceTableHeader";
+import { NiceTableBody } from "./NiceTableBody";
 import { NiceTablePagination } from "./NiceTablePagination";
-
-import "./styles.css";
+import { NiceTableProps } from "../types";
 
 export const NiceTable = <T,>({
   data,
   columns,
   hasCheckbox = false,
   itemsPerPage = 10,
-  expandedRow,
   onSorting,
   onPagination,
   onRowSelect,
+  onResize,
 }: NiceTableProps<T>) => {
-  const [expandedRows, setExpandedRows] = useState<Set<number>>(new Set());
+  const tableRef = useRef<HTMLDivElement>(null);
+  const [tableWidth, setTableWidth] = useState(0);
 
-  const { columnWidths, handleColumnResize } = useColumnResize<T>(columns);
+  useEffect(() => {
+    if (tableRef.current) {
+      setTableWidth(tableRef.current.offsetWidth);
+    }
+  }, []);
+
+  const { columnWidths, handleColumnResize } = useColumnResize(
+    columns,
+    tableWidth,
+    hasCheckbox,
+    onResize
+  );
+  const { sorting, handleSort } = useSorting<T>(onSorting);
   const { pagination, paginatedData, handlePageChange } = usePagination<T>(
     data,
     itemsPerPage,
     onPagination
   );
-  const { selectedRows, handleCheckboxChange } =
-    useRowSelection<T>(onRowSelect);
-  const { sorting, handleSort } = useSorting<T>(onSorting);
+  const { selectedRows, handleRowSelect, handleSelectAll } = useRowSelection<T>(
+    data,
+    onRowSelect
+  );
 
-  const handleRowClick = (index: number) => {
-    setExpandedRows((prev) => {
-      const newSet = new Set(prev);
-      if (newSet.has(index)) {
-        newSet.delete(index);
-      } else {
-        newSet.add(index);
-      }
-      return newSet;
-    });
-  };
+  const contextValue = useMemo(
+    () => ({
+      data: paginatedData,
+      columns,
+      columnWidths,
+      sorting,
+      pagination,
+      hasCheckbox,
+      selectedRows,
+      totalItems: data.length,
+      handleSort,
+      handleColumnResize,
+      handlePageChange,
+      handleRowSelect,
+      handleSelectAll,
+    }),
+    [
+      paginatedData,
+      columns,
+      columnWidths,
+      sorting,
+      pagination,
+      hasCheckbox,
+      selectedRows,
+      data.length,
+      handleSort,
+      handleColumnResize,
+      handlePageChange,
+      handleRowSelect,
+      handleSelectAll,
+    ]
+  );
 
   return (
-    <div className="nice-table-container">
-      <div className="nice-table">
-        <NiceTableHeader<T>
-          columns={columns}
-          hasCheckbox={hasCheckbox}
-          columnWidths={columnWidths}
-          sorting={sorting}
-          onSort={handleSort}
-          onColumnResize={handleColumnResize}
-        />
-        <NiceTableBody<T>
-          data={paginatedData}
-          columns={columns}
-          hasCheckbox={hasCheckbox}
-          columnWidths={columnWidths}
-          selectedRows={selectedRows}
-          expandedRows={expandedRows}
-          expandedRowRender={expandedRow}
-          onRowClick={handleRowClick}
-          onCheckboxChange={handleCheckboxChange}
-        />
+    <TableProvider value={contextValue}>
+      <div className="nice-table-container" ref={tableRef}>
+        <div className="nice-table">
+          <NiceTableHeader<T> />
+          <NiceTableBody<T> />
+        </div>
+        <NiceTablePagination<T> />
       </div>
-      <NiceTablePagination
-        pagination={pagination}
-        totalItems={data.length}
-        onPageChange={handlePageChange}
-      />
-    </div>
+    </TableProvider>
   );
 };

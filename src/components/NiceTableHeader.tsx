@@ -1,59 +1,71 @@
 import React from "react";
-import type { Column, SortingState } from "../types";
+import { useTableContext } from "../context/TableContext";
 
-interface NiceTableHeaderProps<T> {
-  columns: Column<T>[];
-  hasCheckbox: boolean;
-  columnWidths: Record<string, number>;
-  sorting: SortingState<T>;
-  onSort: (column: Column<T>) => void;
-  onColumnResize: (columnKey: keyof T | "", newWidth: number) => void;
-}
+export const NiceTableHeader = <T,>() => {
+  const {
+    columns,
+    columnWidths,
+    sorting,
+    hasCheckbox,
+    handleSort,
+    handleColumnResize,
+    handleSelectAll,
+    data,
+    selectedRows,
+  } = useTableContext<T>();
 
-export const NiceTableHeader = <T,>({
-  columns,
-  hasCheckbox,
-  columnWidths,
-  sorting,
-  onSort,
-  onColumnResize,
-}: NiceTableHeaderProps<T>) => {
   return (
     <div className="nice-table-header">
-      <div className="nice-table-row">
-        {hasCheckbox && (
-          <div className="nice-table-cell" style={{ width: "40px" }}></div>
-        )}
-        {columns.map((column) => (
+      {hasCheckbox && (
+        <div
+          className="nice-table-cell nice-table-checkbox"
+          style={{
+            width: `${columnWidths[0]}px`,
+            flexBasis: `${columnWidths[0]}px`,
+          }}
+        >
+          <input
+            type="checkbox"
+            checked={selectedRows.length === data.length}
+            onChange={(e) => handleSelectAll(e.target.checked)}
+          />
+        </div>
+      )}
+      {columns.map((column, index) => {
+        const columnIndex = hasCheckbox ? index + 1 : index;
+        return (
           <div
             key={column.key as string}
             className="nice-table-cell"
-            onClick={() => onSort(column)}
             style={{
-              width: `${columnWidths[column.key as string]}px`,
-              position: "relative",
+              width: `${columnWidths[columnIndex]}px`,
+              flexBasis: `${columnWidths[columnIndex]}px`,
+              flexGrow: 0,
+              flexShrink: 0,
             }}
+            onClick={() => handleSort(column)}
           >
             {column.title}
-            {column.sortable !== false && (
+            {column.sortable && (
               <span className="sort-icon">
-                {sorting.column === (column.sortKey || column.key)
+                {sorting.column === column.key
                   ? sorting.direction === "asc"
                     ? "▲"
                     : "▼"
                   : "▲▼"}
               </span>
             )}
-            {column.isResizable !== false && (
+            {index < columns.length - 1 && (
               <div
                 className="column-resizer"
                 onMouseDown={(e) => {
-                  const startX = e.clientX;
-                  const startWidth = columnWidths[column.key as string];
+                  e.preventDefault();
+                  const startX = e.pageX;
+                  const startWidth = columnWidths[columnIndex];
 
                   const handleMouseMove = (e: MouseEvent) => {
-                    const newWidth = startWidth + e.clientX - startX;
-                    onColumnResize(column.key, newWidth);
+                    const diff = e.pageX - startX;
+                    handleColumnResize(columnIndex, startWidth + diff);
                   };
 
                   const handleMouseUp = () => {
@@ -64,11 +76,11 @@ export const NiceTableHeader = <T,>({
                   document.addEventListener("mousemove", handleMouseMove);
                   document.addEventListener("mouseup", handleMouseUp);
                 }}
-              ></div>
+              />
             )}
           </div>
-        ))}
-      </div>
+        );
+      })}
     </div>
   );
 };

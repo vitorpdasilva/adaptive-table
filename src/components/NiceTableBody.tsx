@@ -1,62 +1,55 @@
 import React from "react";
-import type { Column } from "../types";
+import { useTableContext } from "../context/TableContext";
 
-interface NiceTableBodyProps<T> {
-  data: T[];
-  columns: Column<T>[];
-  hasCheckbox: boolean;
-  columnWidths: Record<string, number>;
-  selectedRows: T[];
-  expandedRows: Set<number>;
-  expandedRowRender?: (rowData: T) => React.ReactNode;
-  onRowClick: (index: number) => void;
-  onCheckboxChange: (row: T) => void;
-}
+export const NiceTableBody = <T,>() => {
+  const {
+    data,
+    columns,
+    columnWidths,
+    hasCheckbox,
+    selectedRows,
+    handleRowSelect,
+  } = useTableContext<T>();
 
-export const NiceTableBody = <T,>({
-  data,
-  columns,
-  hasCheckbox,
-  columnWidths,
-  selectedRows,
-  expandedRows,
-  expandedRowRender,
-  onRowClick,
-  onCheckboxChange,
-}: NiceTableBodyProps<T>) => {
   return (
     <div className="nice-table-body">
       {data.map((row, rowIndex) => (
-        <React.Fragment key={rowIndex}>
-          <div className="nice-table-row" onClick={() => onRowClick(rowIndex)}>
-            {hasCheckbox && (
-              <div className="nice-table-cell" style={{ width: "40px" }}>
-                <input
-                  type="checkbox"
-                  checked={selectedRows.includes(row)}
-                  onChange={() => onCheckboxChange(row)}
-                  onClick={(e) => e.stopPropagation()}
-                />
-              </div>
-            )}
-            {columns.map((column) => (
+        <div key={rowIndex} className="nice-table-row">
+          {hasCheckbox && (
+            <div
+              className="nice-table-cell nice-table-checkbox"
+              style={{
+                width: `${columnWidths[0]}px`,
+                flexBasis: `${columnWidths[0]}px`,
+              }}
+            >
+              <input
+                type="checkbox"
+                checked={selectedRows.includes(row)}
+                onChange={() => handleRowSelect(row)}
+              />
+            </div>
+          )}
+          {columns.map((column, columnIndex) => {
+            const widthIndex = hasCheckbox ? columnIndex + 1 : columnIndex;
+            return (
               <div
                 key={column.key as string}
                 className="nice-table-cell"
-                style={{ width: `${columnWidths[column.key as string]}px` }}
+                style={{
+                  width: `${columnWidths[widthIndex]}px`,
+                  flexBasis: `${columnWidths[widthIndex]}px`,
+                  flexGrow: 0,
+                  flexShrink: 0,
+                }}
               >
                 {column.render
-                  ? column.render(row[column.key], row)
-                  : (row[column.key] as React.ReactNode)}
+                  ? column.render(row[column.key as keyof T], row)
+                  : String(row[column.key as keyof T])}
               </div>
-            ))}
-          </div>
-          {expandedRows.has(rowIndex) && expandedRowRender && (
-            <div className="nice-table-expanded-row">
-              {expandedRowRender(row)}
-            </div>
-          )}
-        </React.Fragment>
+            );
+          })}
+        </div>
       ))}
     </div>
   );

@@ -1,23 +1,65 @@
-import { useState, useEffect } from "react";
-import type { Column } from "../types";
+import { useState, useCallback, useEffect } from "react";
+import { Column } from "../types";
 
-export const useColumnResize = <T>(columns: Column<T>[]) => {
-  const [columnWidths, setColumnWidths] = useState<Record<string, number>>({});
+export const useColumnResize = (
+  columns: Column<any>[],
+  tableWidth: number,
+  hasCheckbox: boolean,
+  onResize?: (columnWidths: number[]) => void
+) => {
+  const [columnWidths, setColumnWidths] = useState<number[]>([]);
 
   useEffect(() => {
-    const initialWidths: Record<string, number> = {};
-    columns.forEach((column) => {
-      initialWidths[column.key as string] = column.minWidth;
-    });
-    setColumnWidths(initialWidths);
-  }, [columns]);
+    const checkboxWidth = hasCheckbox ? 40 : 0;
+    const availableWidth = tableWidth - checkboxWidth;
+    const equalWidth = availableWidth / columns.length;
+    const initialWidths = hasCheckbox
+      ? [checkboxWidth, ...columns.map(() => equalWidth)]
+      : columns.map(() => equalWidth);
 
-  const handleColumnResize = (columnKey: keyof T | "", newWidth: number) => {
-    const column = columns.find((c) => c.key === columnKey);
-    if (column && column.isResizable !== false && newWidth >= column.minWidth) {
-      setColumnWidths((prev) => ({ ...prev, [columnKey as string]: newWidth }));
-    }
-  };
+    setColumnWidths(initialWidths);
+    onResize?.(initialWidths);
+  }, [columns.length, tableWidth, hasCheckbox, onResize]);
+
+  const handleColumnResize = useCallback(
+    (index: number, newWidth: number) => {
+      setColumnWidths((prevWidths) => {
+        const newWidths = [...prevWidths];
+        const actualIndex = hasCheckbox ? index - 1 : index;
+        const oldWidth = newWidths[index];
+        const widthChange = newWidth - oldWidth;
+
+        if (index === 0 && hasCheckbox) return prevWidths; // Don't resize checkbox column
+
+        // Ensure the new width is not less than the minimum width
+        newWidths[index] = Math.max(
+          newWidth,
+          columns[actualIndex]?.minWidth || 50
+        );
+
+        // Find the next column to adjust
+        let nextColumnIndex = index + 1;
+        while (
+          nextColumnIndex < newWidths.length &&
+          newWidths[nextColumnIndex] - widthChange <
+            (columns[nextColumnIndex - (hasCheckbox ? 2 : 1)]?.minWidth || 50)
+        ) {
+          nextColumnIndex++;
+        }
+
+        if (nextColumnIndex < newWidths.length) {
+          newWidths[nextColumnIndex] = Math.max(
+            newWidths[nextColumnIndex] - widthChange,
+            columns[nextColumnIndex - (hasCheckbox ? 2 : 1)]?.minWidth || 50
+          );
+        }
+
+        onResize?.(newWidths);
+        return newWidths;
+      });
+    },
+    [columns, hasCheckbox, onResize]
+  );
 
   return { columnWidths, handleColumnResize };
 };

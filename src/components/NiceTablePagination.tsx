@@ -1,33 +1,22 @@
 import React from "react";
-import { PaginationState } from "../types";
+import { useTableContext } from "../context/TableContext";
 
-interface NiceTablePaginationProps {
-  pagination: PaginationState;
-  totalItems: number;
-  onPageChange: (newPage: number) => void;
-}
-
-export const NiceTablePagination: React.FC<NiceTablePaginationProps> = ({
-  pagination,
-  totalItems,
-  onPageChange,
-}) => {
-  const totalPages = Math.ceil(totalItems / pagination.itemsPerPage);
+export const NiceTablePagination = <T,>() => {
+  const { pagination, totalItems, handlePageChange } = useTableContext<T>();
+  const { currentPage, itemsPerPage } = pagination;
 
   return (
     <div className="nice-table-pagination">
       <button
-        onClick={() => onPageChange(pagination.currentPage - 1)}
-        disabled={pagination.currentPage === 1}
+        onClick={() => handlePageChange(currentPage - 1)}
+        disabled={currentPage === 1}
       >
         Previous
       </button>
-      <span>
-        Page {pagination.currentPage} of {totalPages}
-      </span>
+      <span>Page {currentPage}</span>
       <button
-        onClick={() => onPageChange(pagination.currentPage + 1)}
-        disabled={pagination.currentPage === totalPages}
+        onClick={() => handlePageChange(currentPage + 1)}
+        disabled={currentPage * itemsPerPage >= totalItems}
       >
         Next
       </button>

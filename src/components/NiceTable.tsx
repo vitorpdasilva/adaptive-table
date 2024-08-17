@@ -8,6 +8,7 @@ import { NiceTableHeader } from "./NiceTableHeader";
 import { NiceTableBody } from "./NiceTableBody";
 import { NiceTablePagination } from "./NiceTablePagination";
 import { NiceTableProps } from "../types";
+import { useExpandedRows } from "../hooks/useExpandedRows";
 
 export const NiceTable = <T,>({
   data,
@@ -18,9 +19,11 @@ export const NiceTable = <T,>({
   onPagination,
   onRowSelect,
   onResize,
+  expandedRow,
 }: NiceTableProps<T>) => {
   const tableRef = useRef<HTMLDivElement>(null);
   const [tableWidth, setTableWidth] = useState(0);
+  const { expandedRows, handleRowExpand } = useExpandedRows();
 
   useEffect(() => {
     if (tableRef.current) {
@@ -60,6 +63,9 @@ export const NiceTable = <T,>({
       handlePageChange,
       handleRowSelect,
       handleSelectAll,
+      expandedRows,
+      expandedRowRender: expandedRow,
+      handleRowExpand,
     }),
     [
       paginatedData,
@@ -75,6 +81,9 @@ export const NiceTable = <T,>({
       handlePageChange,
       handleRowSelect,
       handleSelectAll,
+      expandedRows,
+      expandedRow,
+      handleRowExpand,
     ]
   );
 

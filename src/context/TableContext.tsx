@@ -15,6 +15,9 @@ interface TableContextType<T> {
   handleColumnResize: (index: number, newWidth: number) => void;
   handlePageChange: (newPage: number) => void;
   handleRowSelect: (row: T) => void;
+  expandedRows: Set<number>;
+  expandedRowRender?: (row: T) => React.ReactNode;
+  handleRowExpand: (rowIndex: number) => void;
 }
 
 const TableContext = createContext<TableContextType<any> | undefined>(

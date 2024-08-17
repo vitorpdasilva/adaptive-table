@@ -97,3 +97,11 @@
   margin-left: 5px;
   cursor: pointer;
 }
+
+.nice-table-expanded-row {
+  padding: 12px;
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #ddd;
+  width: 100%;
+  box-sizing: border-box;
+}

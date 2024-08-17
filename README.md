@@ -1,76 +1,138 @@
-# nice-table
+# NiceTable Component Documentation
 
-### Usage
+## Overview
 
+NiceTable is a flexible and feature-rich React table component that provides sorting, pagination, column resizing, row selection, and expandable rows. It's designed to be easy to use while offering powerful customization options.
+
+## Installation
+
+```bash
+npm install nice-table
 ```
-import React from 'react';
-import { NiceTable } from './components/NiceTable';
-import type { Column } from './types';
 
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  age: number;
-  status: 'active' | 'inactive';
-}
+## Basic Usage
+
+```jsx
+import React from 'react';
+import { NiceTable, Column } from 'nice-table';
 
 const columns: Column<User>[] = [
-  { key: 'id', title: 'ID', minWidth: 50, isResizable: false },
+  { key: 'id', title: 'ID', minWidth: 50 },
   { key: 'name', title: 'Name', minWidth: 100 },
-  {
-    key: 'email',
-    title: 'Email',
-    minWidth: 200,
-    render: (value, row) => (
-      <a href={`mailto:${value}`} title={`Send email to ${row.name}`}>
-        {value}
-      </a>
-    )
-  },
-  { key: 'age', title: 'Age', minWidth: 80 },
-  {
-    key: 'status',
-    title: 'Status',
-    minWidth: 100,
-    render: (value, row) => (
-      <span style={{ color: value === 'active' ? 'green' : 'red' }}>
-        {value.charAt(0).toUpperCase() + value.slice(1)}
-        {row.age < 30 && value === 'active' && ' (Young Active)'}
-      </span>
-    )
-  },
+  { key: 'email', title: 'Email', minWidth: 200 },
 ];
 
 const data: User[] = [
-  { id: 1, name: 'John Doe', email: 'john@example.com', age: 30, status: 'active' },
-  { id: 2, name: 'Jane Smith', email: 'jane@example.com', age: 28, status: 'inactive' },
-  // ... more data
+  { id: 1, name: 'John Doe', email: 'john@example.com' },
+  { id: 2, name: 'Jane Smith', email: 'jane@example.com' },
 ];
 
-const App: React.FC = () => {
+function App() {
   return (
     <NiceTable<User>
       data={data}
       columns={columns}
       hasCheckbox={true}
       itemsPerPage={10}
-      expandedRow={(rowData) => (
-        <div>
-          <h3>User Details</h3>
-          <p>Name: {rowData.name}</p>
-          <p>Email: {rowData.email}</p>
-          <p>Age: {rowData.age}</p>
-          <p>Status: {rowData.status}</p>
-        </div>
-      )}
-      onSorting={(sortingData) => console.log('Sorting:', sortingData)}
-      onPagination={(paginationData) => console.log('Pagination:', paginationData)}
-      onRowSelect={(selectedRows) => console.log('Selected rows:', selectedRows)}
     />
   );
-};
-
-export default App;
-
+}
 ```
+
+## Props
+
+### `data: T[]`
+
+An array of objects representing the data to be displayed in the table. Each object should match the structure defined by your generic type `T`.
+
+### `columns: Column<T>[]`
+
+An array of column definitions. Each column should have the following properties:
+
+- `key: keyof T | ''`: The key of the data object this column represents.
+- `title: string`: The display title for the column header.
+- `minWidth: number`: The minimum width of the column in pixels.
+- `sortable?: boolean`: Whether the column is sortable (default: true).
+- `render?: (value: T[keyof T], row: T) => React.ReactNode`: Optional custom render function for cell content.
+
+### `hasCheckbox?: boolean`
+
+Whether to display a checkbox column for row selection. Default is `false`.
+
+### `itemsPerPage?: number`
+
+The number of items to display per page. Default is `10`.
+
+### `onSorting?: (sortingData: SortingState<T>) => void`
+
+Callback function triggered when sorting changes. Receives an object with:
+
+- `column: keyof T | null`: The key of the column being sorted.
+- `direction: 'asc' | 'desc' | null`: The sort direction.
+
+### `onPagination?: (paginationData: PaginationState) => void`
+
+Callback function triggered when pagination changes. Receives an object with:
+
+- `currentPage: number`: The current page number.
+- `itemsPerPage: number`: The number of items per page.
+
+### `onRowSelect?: (selectedRows: T[]) => void`
+
+Callback function triggered when row selection changes. Receives an array of selected row data.
+
+### `onResize?: (columnWidths: number[]) => void`
+
+Callback function triggered when column widths change due to resizing. Receives an array of column widths.
+
+### `expandedRow?: (row: T) => React.ReactNode`
+
+A function that returns the content to be displayed in the expanded row. If provided, rows become expandable on click.
+
+## Column Resizing
+
+Columns can be resized by dragging the right edge of the column header. The minimum width of a column is determined by the `minWidth` property in the column definition.
+
+## Sorting
+
+Clicking on a column header will sort the data by that column. Clicking again will reverse the sort order. The `sortable` property in the column definition can be used to disable sorting for specific columns.
+
+## Pagination
+
+The table includes built-in pagination. You can customize the number of items per page using the `itemsPerPage` prop.
+
+## Row Selection
+
+When `hasCheckbox` is set to `true`, a checkbox column will appear, allowing for row selection. The `onRowSelect` callback will be triggered with an array of selected row data whenever the selection changes.
+
+## Expandable Rows
+
+When the `expandedRow` prop is provided, rows become expandable. Clicking on a row will toggle its expanded state, showing the content returned by the `expandedRow` function.
+
+## Styling
+
+The component comes with default styling, but you can customize its appearance by overriding the CSS classes. The main classes used are:
+
+- `.nice-table-container`: The outer container of the table.
+- `.nice-table`: The table itself.
+- `.nice-table-header`: The table header row.
+- `.nice-table-body`: The container for table body rows.
+- `.nice-table-row`: Individual table rows.
+- `.nice-table-cell`: Individual table cells.
+- `.nice-table-checkbox`: The checkbox cell.
+- `.nice-table-expanded-row`: The expanded row content container.
+- `.nice-table-pagination`: The pagination controls container.
+
+## TypeScript Support
+
+NiceTable is built with TypeScript and provides full type safety. When using the component, provide your data type as a generic parameter:
+
+```typescript
+<NiceTable<YourDataType> ... />
+```
+
+This ensures type checking for your data, columns, and callback functions.
+
+## Performance Considerations
+
+NiceTable is optimized for performance, using memoization and efficient update mechanisms. However, for very large datasets, consider implementing virtual scrolling or lazy loading to improve performance.

@@ -35,7 +35,7 @@ export const NiceTableHeader = <T,>() => {
         const columnIndex = hasCheckbox ? index + 1 : index;
         return (
           <div
-            key={column.key as string}
+            key={`${column.key as string}-${index}`}
             className="adaptive-table-cell"
             style={{
               width: `${columnWidths[columnIndex]}px`,

@@ -12,8 +12,9 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    "types": ["jest", "@testing-library/jest-dom"]
   },
-  "include": ["src"],
+  "include": ["src/**/*", "**/*.test.ts", "**/*.test.tsx"],
   "exclude": ["node_modules", "dist"]
 }

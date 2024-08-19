@@ -4,6 +4,7 @@ module.exports = {
     browser: true,
     es6: true,
     node: true,
+    "jest/globals": true,
   },
   parser: "@typescript-eslint/parser",
   parserOptions: {
@@ -33,8 +34,9 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
+    "plugin:jest/recommended",
   ],
-  plugins: ["@typescript-eslint", "react", "react-hooks", "import"],
+  plugins: ["@typescript-eslint", "react", "react-hooks", "import", "jest"],
   settings: {
     react: {
       version: "detect",

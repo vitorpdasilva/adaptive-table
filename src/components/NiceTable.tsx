@@ -24,6 +24,7 @@ export const NiceTable = <T,>({
   const tableRef = useRef<HTMLDivElement>(null);
   const [tableWidth, setTableWidth] = useState(0);
   const { expandedRows, handleRowExpand } = useExpandedRows();
+  const [expandedRowIndex, setExpandedRowIndex] = useState<number | null>(null);
 
   useEffect(() => {
     if (tableRef.current) {
@@ -48,6 +49,10 @@ export const NiceTable = <T,>({
     onRowSelect
   );
 
+  const handleRowClick = (index: number) => {
+    setExpandedRowIndex((prevIndex) => (prevIndex === index ? null : index));
+  };
+
   const contextValue = useMemo(
     () => ({
       data: paginatedData,
@@ -66,6 +71,7 @@ export const NiceTable = <T,>({
       expandedRows,
       expandedRowRender: expandedRow,
       handleRowExpand,
+      handleRowClick,
     }),
     [
       paginatedData,
@@ -87,12 +93,19 @@ export const NiceTable = <T,>({
     ]
   );
 
+  if (data.length === 0) {
+    return <div className="nice-table-empty-state">No data available</div>;
+  }
+
   return (
     <TableProvider value={contextValue}>
       <div className="adaptive-table-container" ref={tableRef}>
-        <div className="adaptive-table">
+        <div role="table" className="adaptive-table">
           <NiceTableHeader<T> />
-          <NiceTableBody<T> />
+          <NiceTableBody<T>
+            expandedRowIndex={expandedRowIndex}
+            onRowClick={handleRowClick}
+          />
         </div>
         <NiceTablePagination<T> />
       </div>

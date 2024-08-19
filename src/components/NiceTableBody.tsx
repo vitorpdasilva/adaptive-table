@@ -1,7 +1,15 @@
 import React, { Fragment } from "react";
 import { useTableContext } from "../context/TableContext";
 
-export const NiceTableBody = <T,>() => {
+interface NiceTableBodyProps<T> {
+  expandedRowIndex: number | null;
+  onRowClick: (index: number) => void;
+}
+
+export const NiceTableBody = <T,>({
+  expandedRowIndex,
+  onRowClick,
+}: NiceTableBodyProps<T>) => {
   const {
     data,
     columns,
@@ -11,7 +19,6 @@ export const NiceTableBody = <T,>() => {
     handleRowSelect,
     expandedRows,
     expandedRowRender,
-    handleRowExpand,
   } = useTableContext<T>();
 
   return (
@@ -19,8 +26,10 @@ export const NiceTableBody = <T,>() => {
       {data.map((row, rowIndex) => (
         <Fragment key={rowIndex}>
           <div
+            role="row"
             className="adaptive-table-row"
-            onClick={() => handleRowExpand(rowIndex)}
+            data-testid="adaptive-table-row"
+            onClick={() => onRowClick(rowIndex)}
           >
             {hasCheckbox && (
               <div
@@ -34,6 +43,7 @@ export const NiceTableBody = <T,>() => {
                   type="checkbox"
                   checked={selectedRows.includes(row)}
                   onChange={() => handleRowSelect(row)}
+                  onClick={(e) => e.stopPropagation()} // Prevent row click when checkbox is clicked
                 />
               </div>
             )}
@@ -41,7 +51,7 @@ export const NiceTableBody = <T,>() => {
               const widthIndex = hasCheckbox ? columnIndex + 1 : columnIndex;
               return (
                 <div
-                  key={column.key as string}
+                  key={`${column.key as string}-${columnIndex}`}
                   className="adaptive-table-cell"
                   style={{
                     width: `${columnWidths[widthIndex]}px`,
@@ -57,11 +67,12 @@ export const NiceTableBody = <T,>() => {
               );
             })}
           </div>
-          {expandedRows.has(rowIndex) && expandedRowRender && (
-            <div className="adaptive-table-expanded-row">
-              {expandedRowRender(row)}
-            </div>
-          )}
+          {(expandedRows.has(rowIndex) || expandedRowIndex === rowIndex) &&
+            expandedRowRender && (
+              <div className="adaptive-table-expanded-row">
+                {expandedRowRender(row)}
+              </div>
+            )}
         </Fragment>
       ))}
     </div>

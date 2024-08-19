@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen, fireEvent, within } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { AdaptiveTable } from "./AdaptiveTable";
-import { Column } from "../types"; // Make sure to import your Column type
+import { Column } from "../types";
 
 interface TestUser {
   id: number;
@@ -54,7 +54,6 @@ describe("AdaptiveTable Component", () => {
     fireEvent.click(checkboxes[1]);
 
     expect(onRowSelect).toHaveBeenCalledTimes(1);
-
     expect(onRowSelect).toHaveBeenCalledWith(
       expect.arrayContaining([expect.objectContaining(testData[0])])
     );
@@ -62,7 +61,6 @@ describe("AdaptiveTable Component", () => {
     fireEvent.click(checkboxes[1]);
 
     expect(onRowSelect).toHaveBeenCalledTimes(2);
-
     expect(onRowSelect).toHaveBeenLastCalledWith([]);
   });
 
@@ -77,33 +75,22 @@ describe("AdaptiveTable Component", () => {
       />
     );
 
-    // Debug: Log the rendered content
-    console.log(screen.debug());
-
-    // Get all rows
     const rows = screen.getAllByTestId("adaptive-table-row");
 
-    // Check initial render order
     expect(rows[0]).toHaveTextContent("2Jane Smithjane@example.com");
     expect(rows[1]).toHaveTextContent("1John Doejohn@example.com");
     expect(rows[2]).toHaveTextContent("3Alice Johnsonalice@example.com");
 
-    // Click on Name header to sort
     const nameHeader = screen.getByText("Name");
     fireEvent.click(nameHeader);
 
-    // Check if onSorting was called
     expect(onSorting).toHaveBeenCalledWith({
       column: "name",
       direction: "asc",
     });
 
-    // Note: We're not re-rendering here as the component should handle sorting internally
-
-    // Check if the sorting indicator is displayed (if applicable)
     expect(nameHeader).toHaveTextContent(/Name/);
 
-    // Click again to reverse sort
     fireEvent.click(nameHeader);
 
     expect(onSorting).toHaveBeenCalledWith({
@@ -111,7 +98,6 @@ describe("AdaptiveTable Component", () => {
       direction: "desc",
     });
 
-    // Check if the sorting indicator is updated (if applicable)
     expect(nameHeader).toHaveTextContent(/Name/);
   });
 
@@ -133,30 +119,24 @@ describe("AdaptiveTable Component", () => {
       />
     );
 
-    // Check initial render
     expect(screen.getByText("User 1")).toBeInTheDocument();
     expect(screen.getByText("User 2")).toBeInTheDocument();
     expect(screen.queryByText("User 3")).not.toBeInTheDocument();
 
-    // Click Next button
     const nextButton = screen.getByText("Next");
     fireEvent.click(nextButton);
 
-    // Check if onPagination was called
     expect(onPagination).toHaveBeenCalledWith({
       currentPage: 2,
       itemsPerPage: 2,
     });
 
-    // Check if page 2 content is visible
     expect(screen.getByText("User 3")).toBeInTheDocument();
     expect(screen.getByText("User 4")).toBeInTheDocument();
     expect(screen.queryByText("User 1")).not.toBeInTheDocument();
 
-    // Check pagination info
     const paginationInfo = screen.getByText(/Page \d+/);
 
-    // Test going back to previous page
     const prevButton = screen.getByText("Previous");
     fireEvent.click(prevButton);
 
@@ -165,7 +145,6 @@ describe("AdaptiveTable Component", () => {
       itemsPerPage: 2,
     });
 
-    // Check if page 1 content is visible again
     expect(screen.getByText("User 1")).toBeInTheDocument();
     expect(screen.getByText("User 2")).toBeInTheDocument();
     expect(screen.queryByText("User 3")).not.toBeInTheDocument();
@@ -193,7 +172,6 @@ describe("AdaptiveTable Component", () => {
     expect(expandedContent).toBeInTheDocument();
     expect(expandedContent).toHaveTextContent("jane@example.com");
 
-    // Test collapsing the row
     fireEvent.click(rows[0]);
     expect(screen.queryByTestId("expanded-content")).not.toBeInTheDocument();
   });
@@ -229,7 +207,7 @@ describe("AdaptiveTable Component", () => {
         key: "name",
         title: "Custom",
         minWidth: 100,
-        render: (value, row) => (
+        render: (_, row) => (
           <span data-testid="custom-cell">{row.name.toUpperCase()}</span>
         ),
       },

@@ -4,13 +4,13 @@ import { useColumnResize } from "../hooks/useColumnResize";
 import { usePagination } from "../hooks/usePagination";
 import { useSorting } from "../hooks/useSorting";
 import { useRowSelection } from "../hooks/useRowSelection";
-import { NiceTableHeader } from "./NiceTableHeader";
-import { NiceTableBody } from "./NiceTableBody";
-import { NiceTablePagination } from "./NiceTablePagination";
-import { NiceTableProps } from "../types";
+import { AdaptiveTableHeader } from "./AdaptiveTableHeader";
+import { AdaptiveTableBody } from "./AdaptiveTableBody";
+import { AdaptiveTablePagination } from "./AdaptiveTablePagination";
+import { AdaptiveTableProps } from "../types";
 import { useExpandedRows } from "../hooks/useExpandedRows";
 
-export const NiceTable = <T,>({
+export const AdaptiveTable = <T,>({
   data,
   columns,
   hasCheckbox = false,
@@ -20,7 +20,7 @@ export const NiceTable = <T,>({
   onRowSelect,
   onResize,
   expandedRow,
-}: NiceTableProps<T>) => {
+}: AdaptiveTableProps<T>) => {
   const tableRef = useRef<HTMLDivElement>(null);
   const [tableWidth, setTableWidth] = useState(0);
   const { expandedRows, handleRowExpand } = useExpandedRows();
@@ -101,13 +101,13 @@ export const NiceTable = <T,>({
     <TableProvider value={contextValue}>
       <div className="adaptive-table-container" ref={tableRef}>
         <div role="table" className="adaptive-table">
-          <NiceTableHeader<T> />
-          <NiceTableBody<T>
+          <AdaptiveTableHeader<T> />
+          <AdaptiveTableBody<T>
             expandedRowIndex={expandedRowIndex}
             onRowClick={handleRowClick}
           />
         </div>
-        <NiceTablePagination<T> />
+        <AdaptiveTablePagination<T> />
       </div>
     </TableProvider>
   );

@@ -1,15 +1,15 @@
 import React, { Fragment } from "react";
 import { useTableContext } from "../context/TableContext";
 
-interface NiceTableBodyProps<T> {
+interface AdaptiveTableBodyProps<T> {
   expandedRowIndex: number | null;
   onRowClick: (index: number) => void;
 }
 
-export const NiceTableBody = <T,>({
+export const AdaptiveTableBody = <T,>({
   expandedRowIndex,
   onRowClick,
-}: NiceTableBodyProps<T>) => {
+}: AdaptiveTableBodyProps<T>) => {
   const {
     data,
     columns,

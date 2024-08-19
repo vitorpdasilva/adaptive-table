@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen, fireEvent, within } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { NiceTable } from "./NiceTable";
+import { AdaptiveTable } from "./AdaptiveTable";
 import { Column } from "../types"; // Make sure to import your Column type
 
 interface TestUser {
@@ -22,9 +22,9 @@ const testData: TestUser[] = [
   { id: 3, name: "Alice Johnson", email: "alice@example.com" },
 ];
 
-describe("NiceTable Component", () => {
+describe("AdaptiveTable Component", () => {
   test("renders table with correct headers and data", () => {
-    render(<NiceTable<TestUser> data={testData} columns={testColumns} />);
+    render(<AdaptiveTable<TestUser> data={testData} columns={testColumns} />);
 
     testColumns.forEach((column) => {
       expect(screen.getByText(column.title)).toBeInTheDocument();
@@ -40,7 +40,7 @@ describe("NiceTable Component", () => {
     const onRowSelect = jest.fn();
 
     render(
-      <NiceTable<TestUser>
+      <AdaptiveTable<TestUser>
         data={testData}
         columns={testColumns}
         hasCheckbox={true}
@@ -70,7 +70,7 @@ describe("NiceTable Component", () => {
     const onSorting = jest.fn();
 
     render(
-      <NiceTable<TestUser>
+      <AdaptiveTable<TestUser>
         data={testData}
         columns={testColumns}
         onSorting={onSorting}
@@ -125,7 +125,7 @@ describe("NiceTable Component", () => {
     }));
 
     render(
-      <NiceTable<TestUser>
+      <AdaptiveTable<TestUser>
         data={testData}
         columns={testColumns}
         itemsPerPage={2}
@@ -177,7 +177,7 @@ describe("NiceTable Component", () => {
     );
 
     render(
-      <NiceTable<TestUser>
+      <AdaptiveTable<TestUser>
         data={testData}
         columns={testColumns}
         expandedRow={expandedRow}
@@ -201,7 +201,7 @@ describe("NiceTable Component", () => {
   test("column resizing functionality", () => {
     const onResize = jest.fn();
     render(
-      <NiceTable<TestUser>
+      <AdaptiveTable<TestUser>
         data={testData}
         columns={testColumns}
         onResize={onResize}
@@ -235,7 +235,7 @@ describe("NiceTable Component", () => {
       },
     ];
 
-    render(<NiceTable<TestUser> data={testData} columns={customColumns} />);
+    render(<AdaptiveTable<TestUser> data={testData} columns={customColumns} />);
 
     const customCells = screen.getAllByTestId("custom-cell");
     expect(customCells).toHaveLength(testData.length);
@@ -243,7 +243,7 @@ describe("NiceTable Component", () => {
   });
 
   test("empty state handling", () => {
-    render(<NiceTable<TestUser> data={[]} columns={testColumns} />);
+    render(<AdaptiveTable<TestUser> data={[]} columns={testColumns} />);
     expect(screen.getByText("No data available")).toBeInTheDocument();
   });
 });

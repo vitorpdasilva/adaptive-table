@@ -1,7 +1,7 @@
 import React from "react";
 import { useTableContext } from "../context/TableContext";
 
-export const NiceTablePagination = <T,>() => {
+export const AdaptiveTablePagination = <T,>() => {
   const { pagination, totalItems, handlePageChange } = useTableContext<T>();
   const { currentPage, itemsPerPage } = pagination;
 

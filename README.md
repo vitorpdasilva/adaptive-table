@@ -1,8 +1,8 @@
-# NiceTable Component Documentation
+# AdaptiveTable Component Documentation
 
 ## Overview
 
-NiceTable is a flexible and feature-rich React table component that provides sorting, pagination, column resizing, row selection, and expandable rows. It's designed to be easy to use while offering powerful customization options.
+AdaptiveTable is a flexible and feature-rich React table component that provides sorting, pagination, column resizing, row selection, and expandable rows. It's designed to be easy to use while offering powerful customization options.
 
 ## Installation
 
@@ -14,7 +14,7 @@ npm install adaptive-table
 
 ```jsx
 import React from 'react';
-import { NiceTable, Column } from 'adaptive-table';
+import { AdaptiveTable, Column } from 'adaptive-table';
 
 const columns: Column<User>[] = [
   { key: 'id', title: 'ID', minWidth: 50 },
@@ -29,7 +29,7 @@ const data: User[] = [
 
 function App() {
   return (
-    <NiceTable<User>
+    <AdaptiveTable<User>
       data={data}
       columns={columns}
       hasCheckbox={true}
@@ -125,14 +125,14 @@ The component comes with default styling, but you can customize its appearance b
 
 ## TypeScript Support
 
-NiceTable is built with TypeScript and provides full type safety. When using the component, provide your data type as a generic parameter:
+AdaptiveTable is built with TypeScript and provides full type safety. When using the component, provide your data type as a generic parameter:
 
 ```typescript
-<NiceTable<YourDataType> ... />
+<AdaptiveTable<YourDataType> ... />
 ```
 
 This ensures type checking for your data, columns, and callback functions.
 
 ## Performance Considerations
 
-NiceTable is optimized for performance, using memoization and efficient update mechanisms. However, for very large datasets, consider implementing virtual scrolling or lazy loading to improve performance.
+AdaptiveTable is optimized for performance, using memoization and efficient update mechanisms. However, for very large datasets, consider implementing virtual scrolling or lazy loading to improve performance.

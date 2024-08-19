@@ -1,7 +1,7 @@
 import React from "react";
 import { useTableContext } from "../context/TableContext";
 
-export const NiceTableHeader = <T,>() => {
+export const AdaptiveTableHeader = <T,>() => {
   const {
     columns,
     columnWidths,

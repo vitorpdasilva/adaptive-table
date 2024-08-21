@@ -9,6 +9,7 @@ interface TableContextType<T> {
   pagination: PaginationState;
   hasCheckbox: boolean;
   totalItems: number;
+  itemsPerPage: number;
   handleSelectAll: (checked: boolean) => void;
   selectedRows: T[];
   handleSort: (column: Column<T>) => void;

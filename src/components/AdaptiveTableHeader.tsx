@@ -1,5 +1,6 @@
 import React from "react";
 import { useTableContext } from "../context/TableContext";
+import { usePagination } from "../hooks/usePagination";
 
 export const AdaptiveTableHeader = <T,>() => {
   const {
@@ -11,8 +12,11 @@ export const AdaptiveTableHeader = <T,>() => {
     handleColumnResize,
     handleSelectAll,
     data,
+    itemsPerPage,
     selectedRows,
   } = useTableContext<T>();
+
+  const { paginatedData } = usePagination<T>(data, itemsPerPage);
 
   return (
     <div className="adaptive-table-header">
@@ -26,7 +30,7 @@ export const AdaptiveTableHeader = <T,>() => {
         >
           <input
             type="checkbox"
-            checked={selectedRows.length === data.length}
+            checked={selectedRows.length === paginatedData.length}
             onChange={(e) => handleSelectAll(e.target.checked)}
           />
         </div>

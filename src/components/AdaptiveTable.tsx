@@ -45,7 +45,7 @@ export const AdaptiveTable = <T,>({
     onPagination
   );
   const { selectedRows, handleRowSelect, handleSelectAll } = useRowSelection<T>(
-    data,
+    paginatedData,
     onRowSelect
   );
 
@@ -68,6 +68,7 @@ export const AdaptiveTable = <T,>({
       handlePageChange,
       handleRowSelect,
       handleSelectAll,
+      itemsPerPage,
       expandedRows,
       expandedRowRender: expandedRow,
       handleRowExpand,
@@ -80,6 +81,7 @@ export const AdaptiveTable = <T,>({
       sorting,
       pagination,
       hasCheckbox,
+      itemsPerPage,
       selectedRows,
       data.length,
       handleSort,

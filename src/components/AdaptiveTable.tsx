@@ -27,9 +27,18 @@ export const AdaptiveTable = <T,>({
   const [expandedRowIndex, setExpandedRowIndex] = useState<number | null>(null);
 
   useEffect(() => {
-    if (tableRef.current) {
-      setTableWidth(tableRef.current.offsetWidth);
-    }
+    const handleResize = () => {
+      if (tableRef.current) {
+        setTableWidth(tableRef.current.offsetWidth);
+      }
+    };
+
+    handleResize(); // Initial call
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   const { columnWidths, handleColumnResize } = useColumnResize(

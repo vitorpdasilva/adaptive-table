@@ -5,7 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.0.0] - 2023-08-19
+## [2.0.1] - 2024-08-20
+
+- Fixing resizing window issue
+- Fixing checkbox select all feature
+- improved performance and code splitting
+
+## [2.0.0] - 2024-08-19
 
 ### Changed
 
@@ -29,7 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enhanced performance for large datasets
 - Better handling of dynamic data updates
 
-## [1.0.0] - [2023-08-16]
+## [1.0.0] - [2024-08-16]
 
 - Initial release of 'nice-table'
 - Basic table rendering functionality

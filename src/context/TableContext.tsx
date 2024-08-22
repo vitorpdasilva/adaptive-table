@@ -1,5 +1,10 @@
 import React, { createContext, useContext, ReactNode } from "react";
-import { Column, SortingState, PaginationState } from "../types";
+import {
+  Column,
+  SortingState,
+  PaginationState,
+  RowExpansionMode,
+} from "../types";
 
 interface TableContextType<T> {
   data: T[];
@@ -18,7 +23,9 @@ interface TableContextType<T> {
   handleRowSelect: (row: T) => void;
   expandedRows: Set<number>;
   expandedRowRender?: (row: T) => React.ReactNode;
-  handleRowExpand: (rowIndex: number) => void;
+  toggleRowExpansion: (rowIndex: number) => void; // Changed from handleRowExpand
+  rowExpansionMode: RowExpansionMode;
+  updateRowExpansionMode: (mode: RowExpansionMode) => void;
 }
 
 const TableContext = createContext<TableContextType<any> | undefined>(

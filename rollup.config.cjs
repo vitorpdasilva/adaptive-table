@@ -12,13 +12,13 @@ module.exports = {
     {
       file: pkg.main,
       format: "cjs",
-      exports: "named",
+      exports: "auto",
       sourcemap: true,
     },
     {
       file: pkg.module,
       format: "es",
-      exports: "named",
+      exports: "auto",
       sourcemap: true,
     },
   ],
@@ -26,8 +26,8 @@ module.exports = {
     nodeResolve(),
     commonjs(),
     postcss({
-      inject: true, // This will inject the CSS into the bundle
-      minimize: true, // This will minify the CSS
+      inject: true,
+      minimize: true,
     }),
     typescript({
       tsconfig: "./tsconfig.json",

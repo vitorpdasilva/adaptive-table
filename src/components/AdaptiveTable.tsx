@@ -7,14 +7,15 @@ import { useRowSelection } from "../hooks/useRowSelection";
 import { AdaptiveTableHeader } from "./AdaptiveTableHeader";
 import { AdaptiveTableBody } from "./AdaptiveTableBody";
 import { AdaptiveTablePagination } from "./AdaptiveTablePagination";
-import { AdaptiveTableProps } from "../types";
-import { useExpandedRows } from "../hooks/useExpandedRows";
+import { AdaptiveTableProps, RowExpansionMode } from "../types";
+import { useRowExpansion } from "../hooks/useRowExpansion";
 
 export const AdaptiveTable = <T,>({
   data,
   columns,
   hasCheckbox = false,
   itemsPerPage = 10,
+  rowExpansionMode = "multiple",
   onSorting,
   onPagination,
   onRowSelect,
@@ -23,8 +24,13 @@ export const AdaptiveTable = <T,>({
 }: AdaptiveTableProps<T>) => {
   const tableRef = useRef<HTMLDivElement>(null);
   const [tableWidth, setTableWidth] = useState(0);
-  const { expandedRows, handleRowExpand } = useExpandedRows();
-  const [expandedRowIndex, setExpandedRowIndex] = useState<number | null>(null);
+
+  const { expandedRows, toggleRowExpansion, updateRowExpansionMode } =
+    useRowExpansion(rowExpansionMode);
+
+  useEffect(() => {
+    updateRowExpansionMode(rowExpansionMode);
+  }, [rowExpansionMode, updateRowExpansionMode]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -58,10 +64,6 @@ export const AdaptiveTable = <T,>({
     onRowSelect
   );
 
-  const handleRowClick = (index: number) => {
-    setExpandedRowIndex((prevIndex) => (prevIndex === index ? null : index));
-  };
-
   const contextValue = useMemo(
     () => ({
       data: paginatedData,
@@ -72,16 +74,17 @@ export const AdaptiveTable = <T,>({
       hasCheckbox,
       selectedRows,
       totalItems: data.length,
+      itemsPerPage,
       handleSort,
       handleColumnResize,
       handlePageChange,
       handleRowSelect,
       handleSelectAll,
-      itemsPerPage,
       expandedRows,
       expandedRowRender: expandedRow,
-      handleRowExpand,
-      handleRowClick,
+      toggleRowExpansion,
+      rowExpansionMode,
+      updateRowExpansionMode,
     }),
     [
       paginatedData,
@@ -100,7 +103,9 @@ export const AdaptiveTable = <T,>({
       handleSelectAll,
       expandedRows,
       expandedRow,
-      handleRowExpand,
+      toggleRowExpansion,
+      rowExpansionMode,
+      updateRowExpansionMode,
     ]
   );
 
@@ -113,10 +118,7 @@ export const AdaptiveTable = <T,>({
       <div className="adaptive-table-container" ref={tableRef}>
         <div role="table" className="adaptive-table">
           <AdaptiveTableHeader<T> />
-          <AdaptiveTableBody<T>
-            expandedRowIndex={expandedRowIndex}
-            onRowClick={handleRowClick}
-          />
+          <AdaptiveTableBody<T> />
         </div>
         <AdaptiveTablePagination<T> />
       </div>

@@ -1,15 +1,7 @@
 import React, { Fragment } from "react";
 import { useTableContext } from "../context/TableContext";
 
-interface AdaptiveTableBodyProps<T> {
-  expandedRowIndex: number | null;
-  onRowClick: (index: number) => void;
-}
-
-export const AdaptiveTableBody = <T,>({
-  expandedRowIndex,
-  onRowClick,
-}: AdaptiveTableBodyProps<T>) => {
+export const AdaptiveTableBody = <T,>() => {
   const {
     data,
     columns,
@@ -19,6 +11,7 @@ export const AdaptiveTableBody = <T,>({
     handleRowSelect,
     expandedRows,
     expandedRowRender,
+    toggleRowExpansion,
   } = useTableContext<T>();
 
   return (
@@ -29,7 +22,7 @@ export const AdaptiveTableBody = <T,>({
             role="row"
             className="adaptive-table-row"
             data-testid="adaptive-table-row"
-            onClick={() => onRowClick(rowIndex)}
+            onClick={() => toggleRowExpansion(rowIndex)}
           >
             {hasCheckbox && (
               <div
@@ -67,12 +60,11 @@ export const AdaptiveTableBody = <T,>({
               );
             })}
           </div>
-          {(expandedRows.has(rowIndex) || expandedRowIndex === rowIndex) &&
-            expandedRowRender && (
-              <div className="adaptive-table-expanded-row">
-                {expandedRowRender(row)}
-              </div>
-            )}
+          {expandedRows.has(rowIndex) && expandedRowRender && (
+            <div className="adaptive-table-expanded-row">
+              {expandedRowRender(row)}
+            </div>
+          )}
         </Fragment>
       ))}
     </div>

@@ -12,7 +12,7 @@ export const useSorting = <T>(
   const handleSort = (column: Column<T>) => {
     if (column.sortable === false) return;
 
-    const sortKey = column.sortKey || column.key;
+    const sortKey = column.sortKey || (column.key as string);
     const newDirection: "asc" | "desc" =
       sorting.column === sortKey && sorting.direction === "asc"
         ? "desc"

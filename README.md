@@ -54,6 +54,8 @@ An array of column definitions. Each column should have the following properties
 - `minWidth: number`: The minimum width of the column in pixels.
 - `sortable?: boolean`: Whether the column is sortable (default: true).
 - `render?: (value: T[keyof T], row: T) => React.ReactNode`: Optional custom render function for cell content.
+- `isResizable?: boolean`: Whether the column is resizable (default: true).
+- `sortKey?: string`: Specifies a custom identifier for sorting the column's data. This can be any string, allowing for flexible sorting strategies. Use this when your sorting logic requires a different identifier than the displayed data property. For example, use 'sort_by_name' for a column displaying 'name'.
 
 ### `hasCheckbox?: boolean`
 

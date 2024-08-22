@@ -5,6 +5,6 @@ export interface Column<T> {
   minWidth: number;
   sortable?: boolean;
   isResizable?: boolean;
-  sortKey?: keyof T;
+  sortKey?: string;
   render?: (value: T[keyof T], row: T) => ReactNode;
 }

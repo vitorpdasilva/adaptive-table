@@ -3,6 +3,8 @@ import { Column } from "./column";
 import { PaginationState } from "./paginationState";
 import { SortingState } from "./sortingState";
 
+export type RowExpansionMode = "single" | "multiple";
+
 export interface AdaptiveTableProps<T> {
   data: T[];
   columns: Column<T>[];
@@ -13,4 +15,5 @@ export interface AdaptiveTableProps<T> {
   onPagination?: (paginationData: PaginationState) => void;
   onRowSelect?: (selectedRows: T[]) => void;
   onResize?: (columnWidths: number[]) => void;
+  rowExpansionMode?: RowExpansionMode;
 }

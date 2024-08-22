@@ -29,15 +29,13 @@ export const useColumnResize = (
         const oldWidth = newWidths[index];
         const widthChange = newWidth - oldWidth;
 
-        if (index === 0 && hasCheckbox) return prevWidths; // Don't resize checkbox column
+        if (index === 0 && hasCheckbox) return prevWidths;
 
-        // Ensure the new width is not less than the minimum width
         newWidths[index] = Math.max(
           newWidth,
           columns[actualIndex]?.minWidth || 50
         );
 
-        // Find the next column to adjust
         let nextColumnIndex = index + 1;
         while (
           nextColumnIndex < newWidths.length &&

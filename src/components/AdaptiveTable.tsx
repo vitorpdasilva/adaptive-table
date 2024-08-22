@@ -33,7 +33,7 @@ export const AdaptiveTable = <T,>({
       }
     };
 
-    handleResize(); // Initial call
+    handleResize();
     window.addEventListener("resize", handleResize);
 
     return () => {

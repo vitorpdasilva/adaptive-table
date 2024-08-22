@@ -8,7 +8,7 @@ export interface AdaptiveTableProps<T> {
   columns: Column<T>[];
   hasCheckbox?: boolean;
   itemsPerPage?: number;
-  expandedRow?: (rowData: T) => React.ReactNode;
+  expandedRow?: (rowData: T) => ReactNode;
   onSorting?: (sortingData: SortingState<T>) => void;
   onPagination?: (paginationData: PaginationState) => void;
   onRowSelect?: (selectedRows: T[]) => void;

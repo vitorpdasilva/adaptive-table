@@ -6,5 +6,5 @@ export interface Column<T> {
   sortable?: boolean;
   isResizable?: boolean;
   sortKey?: keyof T;
-  render?: (value: T[keyof T], row: T) => React.ReactNode;
+  render?: (value: T[keyof T], row: T) => ReactNode;
 }

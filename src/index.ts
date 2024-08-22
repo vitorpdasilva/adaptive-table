@@ -1,3 +1,5 @@
 import "./components/styles.css";
-export * from "./components/AdaptiveTable";
+import { AdaptiveTable } from "./components/AdaptiveTable";
+
+export default AdaptiveTable;
 export * from "./types";

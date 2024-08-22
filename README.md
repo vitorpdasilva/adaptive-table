@@ -13,8 +13,8 @@ npm install adaptive-table
 ## Basic Usage
 
 ```jsx
-import React from 'react';
-import { AdaptiveTable, Column } from 'adaptive-table';
+import AdaptiveTable from 'adaptive-table';
+import type { Column } from 'adaptive-table/types'
 
 const columns: Column<User>[] = [
   { key: 'id', title: 'ID', minWidth: 50 },

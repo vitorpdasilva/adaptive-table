@@ -29,6 +29,7 @@ export const AdaptiveTable = <T,>({
     useRowExpansion(rowExpansionMode);
 
   useEffect(() => {
+    console.log(`AdaptiveTable: rowExpansionMode prop is ${rowExpansionMode}`);
     updateRowExpansionMode(rowExpansionMode);
   }, [rowExpansionMode, updateRowExpansionMode]);
 
@@ -81,7 +82,6 @@ export const AdaptiveTable = <T,>({
       handleRowSelect,
       handleSelectAll,
       expandedRows,
-      expandedRowRender: expandedRow,
       toggleRowExpansion,
       rowExpansionMode,
       updateRowExpansionMode,

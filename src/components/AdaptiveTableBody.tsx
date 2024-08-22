@@ -22,7 +22,10 @@ export const AdaptiveTableBody = <T,>() => {
             role="row"
             className="adaptive-table-row"
             data-testid="adaptive-table-row"
-            onClick={() => toggleRowExpansion(rowIndex)}
+            onClick={() => {
+              console.log(`Row ${rowIndex} clicked`);
+              toggleRowExpansion(rowIndex);
+            }}
           >
             {hasCheckbox && (
               <div

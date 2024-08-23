@@ -1,10 +1,10 @@
 /* eslint-env es6 */
 
-var typescript = require("rollup-plugin-typescript2");
-var commonjs = require("@rollup/plugin-commonjs");
-var { nodeResolve } = require("@rollup/plugin-node-resolve");
-var postcss = require("rollup-plugin-postcss");
-var pkg = require("./package.json");
+const typescript = require("rollup-plugin-typescript2");
+const commonjs = require("@rollup/plugin-commonjs");
+const { nodeResolve } = require("@rollup/plugin-node-resolve");
+const postcss = require("rollup-plugin-postcss");
+const pkg = require("./package.json");
 
 module.exports = {
   input: "src/index.ts",
@@ -12,22 +12,22 @@ module.exports = {
     {
       file: pkg.main,
       format: "cjs",
-      exports: "named",
       sourcemap: true,
+      exports: "named",
     },
     {
       file: pkg.module,
-      format: "es",
-      exports: "named",
+      format: "esm",
       sourcemap: true,
+      exports: "named",
     },
   ],
   plugins: [
     nodeResolve(),
     commonjs(),
     postcss({
-      inject: true, // This will inject the CSS into the bundle
-      minimize: true, // This will minify the CSS
+      inject: true,
+      minimize: true,
     }),
     typescript({
       tsconfig: "./tsconfig.json",

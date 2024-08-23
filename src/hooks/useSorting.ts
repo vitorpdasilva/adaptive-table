@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { Column, SortingState } from "../types";
 
 export const useSorting = <T>(
@@ -9,22 +9,24 @@ export const useSorting = <T>(
     direction: null,
   });
 
-  const handleSort = (column: Column<T>) => {
-    if (column.sortable === false) return;
+  const handleSort = useCallback(
+    (column: Column<T>) => {
+      if (!column.isSortable) return;
 
-    const sortKey = column.sortKey || column.key;
-    const newDirection: "asc" | "desc" =
-      sorting.column === sortKey && sorting.direction === "asc"
-        ? "desc"
-        : "asc";
-
-    const newSorting: SortingState<T> = {
-      column: sortKey,
-      direction: newDirection,
-    };
-    setSorting(newSorting);
-    onSorting?.(newSorting);
-  };
+      setSorting((prevSorting) => {
+        const newSorting: SortingState<T> = {
+          column: column.key,
+          direction:
+            prevSorting.column === column.key && prevSorting.direction === "asc"
+              ? "desc"
+              : "asc",
+        };
+        onSorting?.(newSorting);
+        return newSorting;
+      });
+    },
+    [onSorting]
+  );
 
   return { sorting, handleSort };
 };

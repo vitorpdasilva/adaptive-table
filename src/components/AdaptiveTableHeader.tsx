@@ -47,19 +47,20 @@ export const AdaptiveTableHeader = <T,>() => {
               flexGrow: 0,
               flexShrink: 0,
             }}
-            onClick={() => handleSort(column)}
+            onClick={() => column.isSortable && handleSort(column)}
           >
             {column.title}
-            {column.sortable && (
-              <span className="sort-icon">
+            {column.isSortable && (
+              <span className="sort-indicator">
                 {sorting.column === column.key
                   ? sorting.direction === "asc"
                     ? "▲"
                     : "▼"
-                  : "▲▼"}
+                  : "▲▼"}{" "}
+                {/* Show both arrows if column is not currently sorted */}
               </span>
             )}
-            {index < columns.length - 1 && (
+            {index < columns.length - 1 && !!column.isResizable && (
               <div
                 className="column-resizer"
                 onMouseDown={(e) => {

@@ -52,7 +52,8 @@ An array of column definitions. Each column should have the following properties
 - `key: keyof T | ''`: The key of the data object this column represents.
 - `title: string`: The display title for the column header.
 - `minWidth: number`: The minimum width of the column in pixels.
-- `sortable?: boolean`: Whether the column is sortable (default: true).
+- `isSortable?: boolean`: Whether the column is sortable (default: true).
+- `isResizable?: boolean` Whether teh column is resizable (default: true).
 - `render?: (value: T[keyof T], row: T) => React.ReactNode`: Optional custom render function for cell content.
 
 ### `hasCheckbox?: boolean`

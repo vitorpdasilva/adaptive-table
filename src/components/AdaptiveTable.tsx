@@ -26,6 +26,15 @@ export const AdaptiveTable = <T,>({
   const { expandedRows, handleRowExpand } = useExpandedRows();
   const [expandedRowIndex, setExpandedRowIndex] = useState<number | null>(null);
 
+  const processedColumns = useMemo(() => {
+    const processed = columns.map((column) => ({
+      ...column,
+      isResizable: column.isResizable !== false,
+      isSortable: column.isSortable !== false,
+    }));
+    return processed;
+  }, [columns]);
+
   useEffect(() => {
     const handleResize = () => {
       if (tableRef.current) {
@@ -65,7 +74,7 @@ export const AdaptiveTable = <T,>({
   const contextValue = useMemo(
     () => ({
       data: paginatedData,
-      columns,
+      columns: processedColumns,
       columnWidths,
       sorting,
       pagination,

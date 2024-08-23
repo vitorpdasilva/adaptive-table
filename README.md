@@ -39,6 +39,12 @@ function App() {
 }
 ```
 
+<details>
+  <summary>Click to expand</summary>
+  
+  This content is hidden by default but can be expanded.
+</details>
+
 ## Props
 
 ### `data: T[]`

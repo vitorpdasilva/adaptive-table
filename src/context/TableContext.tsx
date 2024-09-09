@@ -9,12 +9,14 @@ interface TableContextType<T> {
   pagination: PaginationState;
   hasCheckbox: boolean;
   totalItems: number;
-  itemsPerPage: number;
+  pageSize: number;
+  pageSizeOptions: number[];
   handleSelectAll: (checked: boolean) => void;
   selectedRows: T[];
   handleSort: (column: Column<T>) => void;
   handleColumnResize: (index: number, newWidth: number) => void;
   handlePageChange: (newPage: number) => void;
+  handlePageSizeChange: (newPageSize: number) => void;
   handleRowSelect: (row: T) => void;
   expandedRows: Set<number>;
   expandedRowRender?: (row: T) => React.ReactNode;

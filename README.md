@@ -39,12 +39,6 @@ function App() {
 }
 ```
 
-<details>
-  <summary>Click to expand</summary>
-  
-  This content is hidden by default but can be expanded.
-</details>
-
 ## Props
 
 ### `data: T[]`
@@ -129,6 +123,7 @@ The component comes with default styling, but you can customize its appearance b
 - `.adaptive-table-checkbox`: The checkbox cell.
 - `.adaptive-table-expanded-row`: The expanded row content container.
 - `.adaptive-table-pagination`: The pagination controls container.
+- `.adaptive-table-empty-state`: The component when no data is provided or T[].length === 0;
 
 ## TypeScript Support
 

@@ -12,11 +12,11 @@ export const AdaptiveTableHeader = <T,>() => {
     handleColumnResize,
     handleSelectAll,
     data,
-    itemsPerPage,
+    pageSize,
     selectedRows,
   } = useTableContext<T>();
 
-  const { paginatedData } = usePagination<T>(data, itemsPerPage);
+  const { paginatedData } = usePagination<T>(data, pageSize);
 
   return (
     <div className="adaptive-table-header">

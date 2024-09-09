@@ -43,7 +43,6 @@ export const AdaptiveTableBody = <T,>({
                   type="checkbox"
                   checked={selectedRows.includes(row)}
                   onChange={() => handleRowSelect(row)}
-                  onClick={(e) => e.stopPropagation()} // Prevent row click when checkbox is clicked
                 />
               </div>
             )}

@@ -3,12 +3,12 @@ import type { PaginationState } from "../types";
 
 export const usePagination = <T>(
   data: T[],
-  itemsPerPage: number,
+  initialItemsPerPage: number,
   onPagination?: (paginationData: PaginationState) => void
 ) => {
   const [pagination, setPagination] = useState<PaginationState>({
     currentPage: 1,
-    itemsPerPage,
+    itemsPerPage: initialItemsPerPage,
   });
 
   const paginatedData = useMemo(() => {
@@ -23,5 +23,14 @@ export const usePagination = <T>(
     onPagination?.(newPagination);
   };
 
-  return { pagination, paginatedData, handlePageChange };
+  const handlePageSizeChange = (newPageSize: number) => {
+    const newPagination = {
+      currentPage: 1,
+      itemsPerPage: newPageSize,
+    };
+    setPagination(newPagination);
+    onPagination?.(newPagination);
+  };
+
+  return { pagination, paginatedData, handlePageChange, handlePageSizeChange };
 };

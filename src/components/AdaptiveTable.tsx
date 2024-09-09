@@ -14,7 +14,8 @@ export const AdaptiveTable = <T,>({
   data,
   columns,
   hasCheckbox = false,
-  itemsPerPage = 10,
+  pageSize = 10,
+  pageSizeOptions = [10, 25, 50, 100],
   onSorting,
   onPagination,
   onRowSelect,
@@ -25,6 +26,8 @@ export const AdaptiveTable = <T,>({
   const [tableWidth, setTableWidth] = useState(0);
   const { expandedRows, handleRowExpand } = useExpandedRows();
   const [expandedRowIndex, setExpandedRowIndex] = useState<number | null>(null);
+
+  const defaultPageSize = pageSize || pageSizeOptions[0];
 
   const processedColumns = useMemo(() => {
     const processed = columns.map((column) => ({
@@ -57,11 +60,8 @@ export const AdaptiveTable = <T,>({
     onResize
   );
   const { sorting, handleSort } = useSorting<T>(onSorting);
-  const { pagination, paginatedData, handlePageChange } = usePagination<T>(
-    data,
-    itemsPerPage,
-    onPagination
-  );
+  const { pagination, paginatedData, handlePageChange, handlePageSizeChange } =
+    usePagination<T>(data, defaultPageSize, onPagination);
   const { selectedRows, handleRowSelect, handleSelectAll } = useRowSelection<T>(
     paginatedData,
     onRowSelect
@@ -81,12 +81,14 @@ export const AdaptiveTable = <T,>({
       hasCheckbox,
       selectedRows,
       totalItems: data.length,
+      pageSizeOptions,
+      handlePageSizeChange,
       handleSort,
       handleColumnResize,
       handlePageChange,
       handleRowSelect,
       handleSelectAll,
-      itemsPerPage,
+      pageSize,
       expandedRows,
       expandedRowRender: expandedRow,
       handleRowExpand,
@@ -99,10 +101,12 @@ export const AdaptiveTable = <T,>({
       sorting,
       pagination,
       hasCheckbox,
-      itemsPerPage,
+      pageSize,
+      pageSizeOptions,
       selectedRows,
       data.length,
       handleSort,
+      handlePageChange,
       handleColumnResize,
       handlePageChange,
       handleRowSelect,
@@ -114,7 +118,7 @@ export const AdaptiveTable = <T,>({
   );
 
   if (data.length === 0) {
-    return <div className="nice-table-empty-state">No data available</div>;
+    return <div className="adaptive-table-empty-state">No data available</div>;
   }
 
   return (

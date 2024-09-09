@@ -2,7 +2,13 @@ import React from "react";
 import { useTableContext } from "../context/TableContext";
 
 export const AdaptiveTablePagination = <T,>() => {
-  const { pagination, totalItems, handlePageChange } = useTableContext<T>();
+  const {
+    pagination,
+    totalItems,
+    handlePageChange,
+    handlePageSizeChange,
+    pageSizeOptions,
+  } = useTableContext<T>();
   const { currentPage, itemsPerPage } = pagination;
 
   return (
@@ -20,6 +26,16 @@ export const AdaptiveTablePagination = <T,>() => {
       >
         Next
       </button>
+      <select
+        value={itemsPerPage}
+        onChange={(e) => handlePageSizeChange(Number(e.target.value))}
+      >
+        {pageSizeOptions.map((size) => (
+          <option key={size} value={size}>
+            {size} per page
+          </option>
+        ))}
+      </select>
     </div>
   );
 };
